@@ -1,0 +1,176 @@
+syntax = 'proto3';
+
+package ultra.container.v1.mysql;
+
+import "container/proto/v1/structures.proto";
+
+service MysqlService {
+
+    rpc createDb (CreateDbRequest) returns (CreateDbResponse) {
+    }
+    rpc deleteDb (DeleteDbRequest) returns (DeleteDbResponse) {
+    }
+    rpc commentDb (CommentDbRequest) returns (CommentDbResponse) {
+    }
+    rpc addAccess (AddAccessRequest) returns (AddAccessResponse) {
+    }
+    rpc commentAccess (CommentAccessRequest) returns (CommentAccessResponse) {
+    }
+    rpc changeAccessPassword (ChangeAccessPasswordRequest) returns (ChangeAccessPasswordResponse) {
+    }
+    rpc deleteAccess (DeleteAccessRequest) returns (DeleteAccessResponse) {
+    }
+
+
+}
+
+message CreateDbRequest {
+    string name = 1;
+    string password = 2;
+    string host = 3;
+}
+
+message CreateDbResponse {
+    oneof result {
+        structures.DatabaseInfo info = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            VALIDATION_ERROR = 1;
+        }
+    }
+}
+
+message DeleteDbRequest {
+    string name = 1;
+}
+
+message DeleteDbResponse {
+    oneof result {
+        string name = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
+        }
+    }
+}
+
+message CommentDbRequest {
+    string name = 1;
+    string comment = 2;
+}
+
+message CommentDbResponse {
+    oneof result {
+        structures.DatabaseInfo info = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+    }
+}
+
+message AddAccessRequest {
+    string name = 1;
+    string comment = 2;
+}
+
+message AddAccessResponse {
+    oneof result {
+        structures.DatabaseInfo info = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+    }
+}
+
+message CommentAccessRequest {
+    string name = 1;
+    string comment = 2;
+}
+
+message CommentAccessResponse {
+    oneof result {
+        structures.DatabaseInfo info = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+    }
+}
+
+message ChangeAccessPasswordRequest {
+    string username = 1;
+    string host = 2;
+    string password = 3;
+}
+
+message ChangeAccessPasswordResponse {
+    oneof result {
+        structures.DatabaseInfo info = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+    }
+}
+
+message DeleteAccessRequest {
+    string username = 1;
+    string host = 2;
+}
+
+message DeleteAccessResponse {
+    oneof result {
+        structures.DatabaseInfo info = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
+        }
+    }
+}
