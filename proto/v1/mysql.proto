@@ -28,6 +28,7 @@ message CreateDbRequest {
     string name = 1;
     string password = 2;
     string host = 3;
+    uint64 container_id = 4;
 }
 
 message CreateDbResponse {
@@ -43,12 +44,14 @@ message CreateDbResponse {
         enum Code {
             INTERNAL_ERROR = 0;
             VALIDATION_ERROR = 1;
+            NOT_FOUND_ERROR = 2;
         }
     }
 }
 
 message DeleteDbRequest {
     string name = 1;
+    uint64 container_id = 2;
 }
 
 message DeleteDbResponse {
@@ -71,6 +74,7 @@ message DeleteDbResponse {
 message CommentDbRequest {
     string name = 1;
     string comment = 2;
+    uint64 container_id = 3;
 }
 
 message CommentDbResponse {
@@ -85,6 +89,7 @@ message CommentDbResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 2;
         }
     }
 }
@@ -92,6 +97,7 @@ message CommentDbResponse {
 message AddAccessRequest {
     string name = 1;
     string comment = 2;
+    uint64 container_id = 3;
 }
 
 message AddAccessResponse {
@@ -106,6 +112,7 @@ message AddAccessResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
         }
     }
 }
@@ -113,6 +120,7 @@ message AddAccessResponse {
 message CommentAccessRequest {
     string name = 1;
     string comment = 2;
+    uint64 container_id = 3;
 }
 
 message CommentAccessResponse {
@@ -127,6 +135,7 @@ message CommentAccessResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
         }
     }
 }
@@ -135,6 +144,7 @@ message ChangeAccessPasswordRequest {
     string username = 1;
     string host = 2;
     string password = 3;
+    uint64 container_id = 4;
 }
 
 message ChangeAccessPasswordResponse {
@@ -149,6 +159,7 @@ message ChangeAccessPasswordResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
         }
     }
 }
@@ -156,6 +167,7 @@ message ChangeAccessPasswordResponse {
 message DeleteAccessRequest {
     string username = 1;
     string host = 2;
+    uint64 container_id = 3;
 }
 
 message DeleteAccessResponse {
