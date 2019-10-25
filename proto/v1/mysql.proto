@@ -14,8 +14,6 @@ service MysqlService {
     }
     rpc addAccess (AddAccessRequest) returns (AddAccessResponse) {
     }
-    rpc commentAccess (CommentAccessRequest) returns (CommentAccessResponse) {
-    }
     rpc changeAccessPassword (ChangeAccessPasswordRequest) returns (ChangeAccessPasswordResponse) {
     }
     rpc deleteAccess (DeleteAccessRequest) returns (DeleteAccessResponse) {
@@ -101,29 +99,6 @@ message AddAccessRequest {
 }
 
 message AddAccessResponse {
-    oneof result {
-        structures.DatabaseInfo info = 1;
-        Error error = 2;
-    }
-
-    message Error {
-        Code code = 1;
-        string message = 2;
-
-        enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
-        }
-    }
-}
-
-message CommentAccessRequest {
-    string name = 1;
-    string comment = 2;
-    uint64 container_id = 3;
-}
-
-message CommentAccessResponse {
     oneof result {
         structures.DatabaseInfo info = 1;
         Error error = 2;
