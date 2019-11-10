@@ -2,13 +2,15 @@ syntax = 'proto3';
 
 package ultra.container.v1.structures;
 
-message DatabaseInfo {
-    string name = 1;
-    string comment = 2;
-    double size = 3;
-    repeated AccessInfo access = 4;
+message Database {
+    uint64 id = 1;
+    string name = 2;
+    string comment = 3;
+    repeated User user = 4;
 }
 
-message AccessInfo {
-    string host = 1;
+message User {
+    uint64 id = 1;
+    string name = 2;
+    string host = 3;
 }

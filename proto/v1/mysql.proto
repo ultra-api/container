@@ -5,33 +5,41 @@ package ultra.container.v1.mysql;
 import "container/proto/v1/structures.proto";
 
 service MysqlService {
-
+    rpc listDb (ListDbRequest) returns (ListDbResponse) {
+    }
     rpc createDb (CreateDbRequest) returns (CreateDbResponse) {
     }
     rpc deleteDb (DeleteDbRequest) returns (DeleteDbResponse) {
     }
     rpc commentDb (CommentDbRequest) returns (CommentDbResponse) {
     }
-    rpc addAccess (AddAccessRequest) returns (AddAccessResponse) {
+    rpc createUser (CreateUserRequest) returns (CreateUserResponse) {
     }
-    rpc changeAccessPassword (ChangeAccessPasswordRequest) returns (ChangeAccessPasswordResponse) {
+    rpc deleteUser (DeleteUserRequest) returns (DeleteUserResponse) {
+    }
+    rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
+    }
+    rpc addAccess (AddAccessRequest) returns (AddAccessResponse) {
     }
     rpc deleteAccess (DeleteAccessRequest) returns (DeleteAccessResponse) {
     }
+}
+message ListDbRequest {
+    uint64 app_id = 1;
+}
 
-
+message ListDbResponse {
+    repeated structures.Database db = 1;
 }
 
 message CreateDbRequest {
-    string name = 1;
-    string password = 2;
-    string host = 3;
-    uint64 container_id = 4;
+    uint64 name = 1;
+    uint64 app_id = 2;
 }
 
 message CreateDbResponse {
     oneof result {
-        structures.DatabaseInfo info = 1;
+        structures.Database database = 1;
         Error error = 2;
     }
 
@@ -48,13 +56,12 @@ message CreateDbResponse {
 }
 
 message DeleteDbRequest {
-    string name = 1;
-    uint64 container_id = 2;
+    uint64 db_id = 1;
 }
 
 message DeleteDbResponse {
     oneof result {
-        string name = 1;
+        uint64 db_id = 1;
         Error error = 2;
     }
 
@@ -70,14 +77,13 @@ message DeleteDbResponse {
 }
 
 message CommentDbRequest {
-    string name = 1;
+    uint64 db_id = 1;
     string comment = 2;
-    uint64 container_id = 3;
 }
 
 message CommentDbResponse {
     oneof result {
-        structures.DatabaseInfo info = 1;
+        structures.Database database = 1;
         Error error = 2;
     }
 
@@ -87,20 +93,22 @@ message CommentDbResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
+            VALIDATION_ERROR = 1;
             NOT_FOUND_ERROR = 2;
         }
     }
 }
 
-message AddAccessRequest {
-    string name = 1;
-    string comment = 2;
-    uint64 container_id = 3;
+message CreateUserRequest {
+    uint64 name = 1;
+    uint64 host = 2;
+    string password = 3;
+    uint64 db_id = 4;
 }
 
-message AddAccessResponse {
+message CreateUserResponse {
     oneof result {
-        structures.DatabaseInfo info = 1;
+        structures.User user = 1;
         Error error = 2;
     }
 
@@ -115,16 +123,57 @@ message AddAccessResponse {
     }
 }
 
-message ChangeAccessPasswordRequest {
-    string username = 1;
-    string host = 2;
-    string password = 3;
-    uint64 container_id = 4;
+message DeleteUserRequest {
+    uint64 user_id = 1;
 }
 
-message ChangeAccessPasswordResponse {
+message DeleteUserResponse {
     oneof result {
-        structures.DatabaseInfo info = 1;
+        structures.User user = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
+        }
+    }
+}
+
+message ChangePasswordRequest {
+    uint64 user_id = 1;
+    string new_password = 2;
+}
+
+message ChangePasswordResponse {
+    oneof result {
+        structures.User user = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            NOT_FOUND_ERROR = 1;
+        }
+    }
+}
+
+message AddAccessRequest {
+    uint64 db_id = 1;
+    uint64 user_id = 2;
+}
+
+message AddAccessResponse {
+    oneof result {
+        structures.Database database = 1;
         Error error = 2;
     }
 
@@ -140,14 +189,13 @@ message ChangeAccessPasswordResponse {
 }
 
 message DeleteAccessRequest {
-    string username = 1;
-    string host = 2;
-    uint64 container_id = 3;
+    uint64 db_id = 1;
+    uint64 user_id = 2;
 }
 
 message DeleteAccessResponse {
     oneof result {
-        structures.DatabaseInfo info = 1;
+        structures.Database database = 1;
         Error error = 2;
     }
 
