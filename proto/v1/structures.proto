@@ -6,10 +6,10 @@ message Database {
     uint64 id = 1;
     string name = 2;
     string comment = 3;
-    repeated User user = 4;
+    repeated Access access = 4;
 }
 
-message User {
+message Access {
     uint64 id = 1;
     string name = 2;
     string host = 3;

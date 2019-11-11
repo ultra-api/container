@@ -13,10 +13,6 @@ service MysqlService {
     }
     rpc commentDb (CommentDbRequest) returns (CommentDbResponse) {
     }
-    rpc createUser (CreateUserRequest) returns (CreateUserResponse) {
-    }
-    rpc deleteUser (DeleteUserRequest) returns (DeleteUserResponse) {
-    }
     rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
     }
     rpc addAccess (AddAccessRequest) returns (AddAccessResponse) {
@@ -99,59 +95,14 @@ message CommentDbResponse {
     }
 }
 
-message CreateUserRequest {
-    uint64 name = 1;
-    uint64 host = 2;
-    string password = 3;
-    uint64 db_id = 4;
-}
-
-message CreateUserResponse {
-    oneof result {
-        structures.User user = 1;
-        Error error = 2;
-    }
-
-    message Error {
-        Code code = 1;
-        string message = 2;
-
-        enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
-        }
-    }
-}
-
-message DeleteUserRequest {
-    uint64 user_id = 1;
-}
-
-message DeleteUserResponse {
-    oneof result {
-        structures.User user = 1;
-        Error error = 2;
-    }
-
-    message Error {
-        Code code = 1;
-        string message = 2;
-
-        enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
-        }
-    }
-}
-
 message ChangePasswordRequest {
-    uint64 user_id = 1;
+    uint64 access_id = 1;
     string new_password = 2;
 }
 
 message ChangePasswordResponse {
     oneof result {
-        structures.User user = 1;
+        structures.Database db = 1;
         Error error = 2;
     }
 
@@ -168,7 +119,8 @@ message ChangePasswordResponse {
 
 message AddAccessRequest {
     uint64 db_id = 1;
-    uint64 user_id = 2;
+    string host = 2;
+    string password = 3;
 }
 
 message AddAccessResponse {
@@ -189,8 +141,7 @@ message AddAccessResponse {
 }
 
 message DeleteAccessRequest {
-    uint64 db_id = 1;
-    uint64 user_id = 2;
+    uint64 access_id = 1;
 }
 
 message DeleteAccessResponse {
