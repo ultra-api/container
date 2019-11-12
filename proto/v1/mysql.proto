@@ -29,8 +29,10 @@ message ListDbResponse {
 }
 
 message CreateDbRequest {
-    uint64 name = 1;
-    uint64 app_id = 2;
+    uint64 app_id = 1;
+    uint64 name = 2;
+    string access_host = 3;
+    string access_password = 4;
 }
 
 message CreateDbResponse {
