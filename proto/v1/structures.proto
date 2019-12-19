@@ -12,3 +12,8 @@ message Access {
     string host = 2;
     string db_name = 3;
 }
+
+message Database {
+    string name = 1;
+    repeated Access access = 2;
+}

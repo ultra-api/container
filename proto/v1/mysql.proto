@@ -15,7 +15,16 @@ service ManageService {
     }
     rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
     }
+    rpc listDb (ListDbRequest) returns (ListDbResponse) {
+    }
+}
 
+message ListDbRequest {
+    uint64 service_id = 1;
+}
+
+message ListDbResponse {
+    repeated structures.Database db = 1;
 }
 
 message CreateDbRequest {
