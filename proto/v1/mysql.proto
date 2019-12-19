@@ -29,9 +29,10 @@ message ListDbResponse {
 
 message CreateDbRequest {
     uint32 service_id = 1;
-    string db_name = 2;
-    string host = 3;
-    string password = 4;
+    uint32 app_id = 2;
+    string db_name = 3;
+    string host = 4;
+    string password = 5;
 }
 
 message CreateDbResponse {
@@ -46,9 +47,11 @@ message CreateDbResponse {
 
         enum Code {
             _ = 0;
-            INVALID_DB_NAME = 1;
-            INVALID_HOST = 2;
-            INVALID_PASSWORD = 3;
+            SERVICE_NOT_FOUND = 1;
+            APP_NOT_FOUND = 2;
+            INVALID_DB_NAME = 3;
+            INVALID_HOST = 4;
+            INVALID_PASSWORD = 5;
         }
     }
 }
@@ -70,16 +73,17 @@ message DropDbResponse {
 
         enum Code {
             _ = 0;
-            NOT_FOUND = 1;
+            SERVICE_NOT_FOUND = 1;
+            DB_NOT_FOUND = 2;
         }
     }
 }
 
 message CreateAccessRequest {
     uint32 service_id = 1;
-    string username = 2;
+    string db_name = 2;
     string host = 3;
-    string db_name = 4;
+    string password = 4;
 }
 
 message CreateAccessResponse {
@@ -94,17 +98,18 @@ message CreateAccessResponse {
 
         enum Code {
             _ = 0;
-            NOT_FOUND = 1;
+            SERVICE_NOT_FOUND = 1;
             INVALID_HOST = 2;
+            INVALID_USERNAME = 3;
+            INVALID_PASSWORD = 4;
         }
     }
 }
 
 message DropAccessRequest {
     uint32 service_id = 1;
-    string username = 2;
+    string db_name = 2;
     string host = 3;
-    string db_name = 4;
 }
 
 message DropAccessResponse {
@@ -118,9 +123,10 @@ message DropAccessResponse {
         string message = 2;
 
         enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND = 1;
+            _ = 0;
+            SERVICE_NOT_FOUND = 1;
             INVALID_HOST = 2;
+            DB_NOT_FOUND = 3;
         }
     }
 }
@@ -128,7 +134,7 @@ message DropAccessResponse {
 
 message ChangePasswordRequest {
     uint32 service_id = 1;
-    string username = 2;
+    string db_name = 2;
     string host = 3;
     string password = 4;
 }
@@ -145,8 +151,10 @@ message ChangePasswordResponse {
 
         enum Code {
             _ = 0;
-            INVALID_HOST = 1;
-            INVALID_PASSWORD = 2;
+            SERVICE_NOT_FOUND = 1;
+            HOST_NOT_FOUND = 2;
+            DB_NOT_FOUND = 3;
+            INVALID_PASSWORD = 4;
         }
     }
 }
