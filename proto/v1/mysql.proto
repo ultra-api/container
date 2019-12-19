@@ -4,40 +4,30 @@ package ultra.container.v1.mysql;
 
 import "container/proto/v1/structures.proto";
 
-service MysqlService {
-    rpc listDb (ListDbRequest) returns (ListDbResponse) {
-    }
+service ManageService {
     rpc createDb (CreateDbRequest) returns (CreateDbResponse) {
     }
-    rpc deleteDb (DeleteDbRequest) returns (DeleteDbResponse) {
+    rpc dropDb (DropDbRequest) returns (DropDbResponse) {
     }
-    rpc commentDb (CommentDbRequest) returns (CommentDbResponse) {
+    rpc createAccess (CreateAccessRequest) returns (CreateAccessResponse) {
+    }
+    rpc dropAccess (DropAccessRequest) returns (DropAccessResponse) {
     }
     rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
     }
-    rpc addAccess (AddAccessRequest) returns (AddAccessResponse) {
-    }
-    rpc deleteAccess (DeleteAccessRequest) returns (DeleteAccessResponse) {
-    }
-}
-message ListDbRequest {
-    uint64 app_id = 1;
-}
 
-message ListDbResponse {
-    repeated structures.Database db = 1;
 }
 
 message CreateDbRequest {
-    uint64 app_id = 1;
-    uint64 name = 2;
-    string access_host = 3;
-    string access_password = 4;
+    uint32 service_id = 1;
+    string db_name = 2;
+    string host = 3;
+    string password = 4;
 }
 
 message CreateDbResponse {
     oneof result {
-        structures.Database database = 1;
+        string db_name = 1;
         Error error = 2;
     }
 
@@ -46,20 +36,22 @@ message CreateDbResponse {
         string message = 2;
 
         enum Code {
-            INTERNAL_ERROR = 0;
-            VALIDATION_ERROR = 1;
-            NOT_FOUND_ERROR = 2;
+            _ = 0;
+            INVALID_DB_NAME = 1;
+            INVALID_HOST = 2;
+            INVALID_PASSWORD = 3;
         }
     }
 }
 
-message DeleteDbRequest {
-    uint64 db_id = 1;
+message DropDbRequest {
+    uint32 service_id = 1;
+    string db_name = 2;
 }
 
-message DeleteDbResponse {
+message DropDbResponse {
     oneof result {
-        uint64 db_id = 1;
+        string message = 1;
         Error error = 2;
     }
 
@@ -68,20 +60,47 @@ message DeleteDbResponse {
         string message = 2;
 
         enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
+            _ = 0;
+            NOT_FOUND = 1;
         }
     }
 }
 
-message CommentDbRequest {
-    uint64 db_id = 1;
-    string comment = 2;
+message CreateAccessRequest {
+    uint32 service_id = 1;
+    string username = 2;
+    string host = 3;
+    string db_name = 4;
 }
 
-message CommentDbResponse {
+message CreateAccessResponse {
     oneof result {
-        structures.Database database = 1;
+        structures.Access access = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            _ = 0;
+            NOT_FOUND = 1;
+            INVALID_HOST = 2;
+        }
+    }
+}
+
+message DropAccessRequest {
+    uint32 service_id = 1;
+    string username = 2;
+    string host = 3;
+    string db_name = 4;
+}
+
+message DropAccessResponse {
+    oneof result {
+        string message = 1;
         Error error = 2;
     }
 
@@ -91,20 +110,23 @@ message CommentDbResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
-            VALIDATION_ERROR = 1;
-            NOT_FOUND_ERROR = 2;
+            NOT_FOUND = 1;
+            INVALID_HOST = 2;
         }
     }
 }
+
 
 message ChangePasswordRequest {
-    uint64 access_id = 1;
-    string new_password = 2;
+    uint32 service_id = 1;
+    string username = 2;
+    string host = 3;
+    string password = 4;
 }
 
 message ChangePasswordResponse {
     oneof result {
-        structures.Database db = 1;
+        string message = 1;
         Error error = 2;
     }
 
@@ -113,52 +135,9 @@ message ChangePasswordResponse {
         string message = 2;
 
         enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
-        }
-    }
-}
-
-message AddAccessRequest {
-    uint64 db_id = 1;
-    string host = 2;
-    string password = 3;
-}
-
-message AddAccessResponse {
-    oneof result {
-        structures.Database database = 1;
-        Error error = 2;
-    }
-
-    message Error {
-        Code code = 1;
-        string message = 2;
-
-        enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
-        }
-    }
-}
-
-message DeleteAccessRequest {
-    uint64 access_id = 1;
-}
-
-message DeleteAccessResponse {
-    oneof result {
-        structures.Database database = 1;
-        Error error = 2;
-    }
-
-    message Error {
-        Code code = 1;
-        string message = 2;
-
-        enum Code {
-            INTERNAL_ERROR = 0;
-            NOT_FOUND_ERROR = 1;
+            _ = 0;
+            INVALID_HOST = 1;
+            INVALID_PASSWORD = 2;
         }
     }
 }
