@@ -28,8 +28,8 @@ message ListDbResponse {
 }
 
 message CreateDbRequest {
-    uint32 service_id = 1;
-    uint32 app_id = 2;
+    uint64 service_id = 1;
+    uint64 app_id = 2;
     string db_name = 3;
     string host = 4;
     string password = 5;
@@ -37,7 +37,7 @@ message CreateDbRequest {
 
 message CreateDbResponse {
     oneof result {
-        string db_name = 1;
+        uint64 db_id = 1;
         Error error = 2;
     }
 
@@ -47,23 +47,21 @@ message CreateDbResponse {
 
         enum Code {
             _ = 0;
-            SERVICE_NOT_FOUND = 1;
-            APP_NOT_FOUND = 2;
-            INVALID_DB_NAME = 3;
-            INVALID_HOST = 4;
-            INVALID_PASSWORD = 5;
+            INVALID_DB_NAME = 1;
+            INVALID_HOST = 2;
+            INVALID_PASSWORD = 3;
         }
     }
 }
 
 message DropDbRequest {
-    uint32 service_id = 1;
-    string db_name = 2;
+    uint64 service_id = 1;
+    uint64 db_id = 2;
 }
 
 message DropDbResponse {
     oneof result {
-        string message = 1;
+        uint64 db_id = 1;
         Error error = 2;
     }
 
@@ -73,15 +71,13 @@ message DropDbResponse {
 
         enum Code {
             _ = 0;
-            SERVICE_NOT_FOUND = 1;
-            DB_NOT_FOUND = 2;
         }
     }
 }
 
 message CreateAccessRequest {
-    uint32 service_id = 1;
-    string db_name = 2;
+    uint64 service_id = 1;
+    uint64 db_id = 2;
     string host = 3;
     string password = 4;
 }
@@ -98,23 +94,20 @@ message CreateAccessResponse {
 
         enum Code {
             _ = 0;
-            SERVICE_NOT_FOUND = 1;
-            INVALID_HOST = 2;
-            INVALID_USERNAME = 3;
-            INVALID_PASSWORD = 4;
+            INVALID_HOST = 1;
+            INVALID_PASSWORD = 2;
         }
     }
 }
 
 message DropAccessRequest {
-    uint32 service_id = 1;
-    string db_name = 2;
-    string host = 3;
+    uint64 service_id = 1;
+    uint64 access_id = 2;
 }
 
 message DropAccessResponse {
     oneof result {
-        string message = 1;
+        uint64 access_id = 1;
         Error error = 2;
     }
 
@@ -124,24 +117,20 @@ message DropAccessResponse {
 
         enum Code {
             _ = 0;
-            SERVICE_NOT_FOUND = 1;
-            INVALID_HOST = 2;
-            DB_NOT_FOUND = 3;
+            INVALID_HOST = 1;
         }
     }
 }
 
-
 message ChangePasswordRequest {
-    uint32 service_id = 1;
-    string db_name = 2;
-    string host = 3;
-    string password = 4;
+    uint64 service_id = 1;
+    uint64 access_id = 2;
+    string password = 3;
 }
 
 message ChangePasswordResponse {
     oneof result {
-        string message = 1;
+        uint64 access_id = 1;
         Error error = 2;
     }
 
@@ -151,10 +140,7 @@ message ChangePasswordResponse {
 
         enum Code {
             _ = 0;
-            SERVICE_NOT_FOUND = 1;
-            HOST_NOT_FOUND = 2;
-            DB_NOT_FOUND = 3;
-            INVALID_PASSWORD = 4;
+            INVALID_PASSWORD = 1;
         }
     }
 }

@@ -2,18 +2,15 @@ syntax = 'proto3';
 
 package ultra.container.v1.structures;
 
-message User {
-    string username = 1;
-    string host = 2;
-}
-
 message Access {
-    string username = 1;
-    string host = 2;
-    string db_name = 3;
+    uint64 id = 1;
+    string username = 2;
+    string host = 3;
+    string db_id = 4;
 }
 
 message Database {
-    string name = 1;
-    repeated Access access = 2;
+    uint64 id = 1;
+    string name = 2;
+    repeated Access access = 3;
 }
