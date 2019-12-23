@@ -37,7 +37,7 @@ message CreateDbRequest {
 
 message CreateDbResponse {
     oneof result {
-        uint64 db_id = 1;
+        structures.Database db = 1;
         Error error = 2;
     }
 
@@ -61,7 +61,7 @@ message DropDbRequest {
 
 message DropDbResponse {
     oneof result {
-        uint64 db_id = 1;
+        structures.Database db = 1;
         Error error = 2;
     }
 
@@ -107,7 +107,7 @@ message DropAccessRequest {
 
 message DropAccessResponse {
     oneof result {
-        uint64 access_id = 1;
+        structures.Access access = 1;
         Error error = 2;
     }
 
@@ -130,7 +130,7 @@ message ChangePasswordRequest {
 
 message ChangePasswordResponse {
     oneof result {
-        uint64 access_id = 1;
+        structures.Access access = 1;
         Error error = 2;
     }
 

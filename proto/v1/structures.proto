@@ -9,8 +9,17 @@ message Access {
     string db_id = 4;
 }
 
+
 message Database {
     uint64 id = 1;
     string name = 2;
     repeated Access access = 3;
+    Status status = 4;
+
+    enum Status {
+        NEW = 0;
+        PROCESSING = 1;
+        DONE = 2;
+        ERROR = 3;
+    }
 }
