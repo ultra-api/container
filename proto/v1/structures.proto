@@ -1,6 +1,6 @@
 syntax = 'proto3';
 
-package ultra.container.v1.structures;
+package ultra.service.v1.structures;
 
 message Access {
     uint64 id = 1;
