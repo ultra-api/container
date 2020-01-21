@@ -2,7 +2,7 @@ syntax = 'proto3';
 
 package ultra.service.v1.mysql;
 
-import "container/proto/v1/structures.proto";
+import "service/proto/v1/structures.proto";
 
 service MysqlService {
     rpc createDb (CreateDbRequest) returns (CreateDbResponse) {
