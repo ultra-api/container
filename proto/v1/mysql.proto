@@ -4,7 +4,7 @@ package ultra.container.v1.mysql;
 
 import "container/proto/v1/structures.proto";
 
-service ManageService {
+service MysqlService {
     rpc createDb (CreateDbRequest) returns (CreateDbResponse) {
     }
     rpc dropDb (DropDbRequest) returns (DropDbResponse) {
